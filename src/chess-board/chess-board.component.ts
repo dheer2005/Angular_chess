@@ -66,6 +66,7 @@ export class ChessBoardComponent implements OnInit {
           this.gameStarted = false;
           this.user1 = '';
           this.user2 = '';
+          this.chess.reset();
         }
       } else {
         this.blackTime--;
@@ -75,6 +76,7 @@ export class ChessBoardComponent implements OnInit {
           this.gameStarted = false;
           this.user1 = '';
           this.user2 = '';
+          this.chess.reset();
         }
       }
     }, 1000);
@@ -107,7 +109,7 @@ export class ChessBoardComponent implements OnInit {
         const piece = this.chess.get(this.selectedSquare);
 
         if (piece?.type === 'p' && (square.endsWith('8') || square.endsWith('1'))) {
-          moveObj.promotion = 'q'; 
+          moveObj.promotion = 'q';
         }
 
         this.chess.move(moveObj);
@@ -115,7 +117,7 @@ export class ChessBoardComponent implements OnInit {
 
         if (this.chess.isGameOver()) {
           if (this.chess.isCheckmate()) {
-            alert("Checkmate! " + (this.chess.turn() === 'w' ? 'Black' : 'White') + " wins.");
+            alert("Checkmate! " + (this.chess.turn() === 'w' ? `${this.user1}` : `${this.user2}`) + " wins.");
           } else if (this.chess.isDraw()) {
             alert("Draw!");
           }
@@ -170,59 +172,4 @@ export class ChessBoardComponent implements OnInit {
     };
     return map[piece] || '';
   }
-  
-  
-  
-  
-  
-  
-  // chess = new Chess();
-  // board: any[][] = [];
-  // selectedSquare: string | null = null;
-
-  // ngOnInit() {
-  //   this.updateBoard();
-  // }
-
-  // updateBoard() {
-  //   const boardState = this.chess.board();
-  //   console.log(boardState);
-  //   this.board = boardState.map((row:any) =>
-  //     row.map((piece:any) => piece ? piece.color + piece.type : '')
-  //   );
-  //   console.log(this.board);
-  // }
-
-  // onSquareClick(row: number, col: number) {
-  //   const file = 'abcdefgh'[col];
-  //   const rank = 8 - row;
-  //   const square = file + rank;
-
-  //   if (this.selectedSquare) {
-  //     const move = this.chess.move({ from: this.selectedSquare, to: square });
-  //     if (move) {
-  //       this.updateBoard();
-  //     } else {
-  //       alert('Invalid move!');
-  //     }
-  //     this.selectedSquare = null;
-  //   } else {
-  //     const piece = this.chess.get(square as Square);
-  //     if (piece) {
-  //       this.selectedSquare = square;
-  //     }
-  //   }
-  // }
-
-  // getSquareColor(row: number, col: number): string {
-  //   return (row + col) % 2 === 0 ? 'white' : 'black';
-  // }
-
-  // getPieceSymbol(piece: string): string {
-  //   const map: { [key: string]: string } = {
-  //     wp: '♙', wr: '♖', wn: '♘', wb: '♗', wq: '♕', wk: '♔',
-  //     bp: '♟', br: '♜', bn: '♞', bb: '♝', bq: '♛', bk: '♚'
-  //   };
-  //   return map[piece] || '';
-  // }
 }
