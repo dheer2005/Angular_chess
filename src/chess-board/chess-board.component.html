@@ -1,0 +1,70 @@
+<div class="chess-board mt-4 mb-2 text-center">
+    <div class="playerName mt-4" >
+        <div class=" d-flex justify-content-center align-items-center">
+            <p class="fs-3">{{user1}}</p>
+            <p class="turn mt-1" *ngIf="chess.turn() === 'b' && user1" ><i class="turn fa-solid fa-arrow-left"></i></p>
+        </div>
+        <div class="time" *ngIf="user1">{{ formatTime(blackTime) }}</div>
+    </div>
+    <div>
+        <div *ngFor="let row of board; let rowIndex = index" class="d-flex justify-content-center align-items-center">
+            <div 
+            *ngFor="let square of row; let colIndex = index"
+            class="square"
+            [ngClass]="[getSquareColor(rowIndex, colIndex), isLegalMove(rowIndex, colIndex) ? 'highlight' : '']"
+            (click)="onSquareClick(rowIndex, colIndex)">
+            <i *ngIf="getPieceIconClass(square)" [class]="getPieceIconClass(square)"></i>
+            </div>
+        </div>
+    </div>
+  
+  <div class="playerName" >
+        <div class=" d-flex justify-content-center align-items-center">
+            <p class="fs-3">{{user2}}</p>
+            <p class="turn mt-1" *ngIf="chess.turn() === 'w' && user2" ><i class="turn fa-solid fa-arrow-left"></i></p>
+        </div>
+        <div class="time" *ngIf="user2" >{{ formatTime(whiteTime) }}</div>
+    </div>
+  <div class="BtnDiv" *ngIf="!gameStarted">
+    <button type="button" class="startBtn btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >Start game</button>
+  </div>
+</div>
+
+
+
+
+<!-- players registration -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Register</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #register="ngForm">
+            <div class="mb-3">
+                <label for="player1" class="form-label">Player1</label>
+                <input type="text" #player1="ngModel" class="form-control" id="player1" name="player1" [(ngModel)]="user1" placeholder="Enter player1 name" required>
+                <em class="text-danger" *ngIf="player1.errors?.['required'] && (player1.touched || player1.dirty)">Player1 field is required</em>
+            </div>
+            <div class="mb-3">
+                <label for="player2" class="form-label">Player2</label>
+                <input type="text" #player2="ngModel" class="form-control" id="player2" name="player2" [(ngModel)]="user2" placeholder="Enter Player2 name" required>
+                <em class="text-danger" *ngIf="player2.errors?.['required'] && (player2.touched || player2.dirty)">Player2 field is required</em>
+            </div>
+            <div class="mb-3">
+                <label for="time" class="form-label">Time: </label>
+                <select class="d-block w-100"  name="time" id="time" [(ngModel)]="timer">
+                    <option  *ngFor="let duration of durations | keyvalue: originalOrder " [value]="duration.value">{{duration.key}}</option>
+                </select>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="register.invalid" (click)="startGame()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

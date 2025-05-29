@@ -1,0 +1,82 @@
+.square {
+  width: 45px;
+  height: 45px;
+  vertical-align: middle;
+  font-size: 22px;
+  line-height: 60px;
+  border: 1px solid #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.white {
+  background-color: #70caf0;
+}
+
+.black {
+  background-color: rgb(82, 78, 78);
+}
+
+.highlight {
+  background-color: #8ba7d8 !important;
+}
+
+
+.chess-board{
+    position: relative;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.BtnDiv{
+    position: absolute;
+    width: 80rem;
+    height: 34.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -7%;
+    /* left: 43%; */
+    background-color: rgba(0, 0, 0, 0.5);
+    
+}
+
+.startBtn{
+    width: 13%;
+    height: 13%;
+    font-size: 1.25rem;
+    font-weight: bold;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
+
+.playerName{
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 22.5rem;
+    height: 50px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    border: 1px solid black;
+}
+
+.time{
+    width: 25%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: gray;
+    border-radius: 10px;
+}
+
+.turn>i{
+    color: green;
+    margin-left: 10px;
+    font-weight: bold;
+}
