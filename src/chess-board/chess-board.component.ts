@@ -66,7 +66,7 @@ export class ChessBoardComponent implements OnInit {
           this.gameStarted = false;
           this.user1 = '';
           this.user2 = '';
-          this.chess.reset();
+          this.resetGame();
         }
       } else {
         this.blackTime--;
@@ -76,7 +76,7 @@ export class ChessBoardComponent implements OnInit {
           this.gameStarted = false;
           this.user1 = '';
           this.user2 = '';
-          this.chess.reset();
+          this.resetGame();
         }
       }
     }, 1000);
@@ -86,6 +86,21 @@ export class ChessBoardComponent implements OnInit {
     const m = Math.floor(seconds / 60).toString().padStart(2, '0');
     const s = (seconds % 60).toString().padStart(2, '0');
     return `${m}:${s}`;
+  }
+
+
+  resetGame() {
+    this.chess.reset();
+    this.updateBoard();
+    this.selectedSquare = null;
+    this.legalMoves = [];
+    this.gameStarted = false;
+    this.user1 = '';
+    this.user2 = '';
+    this.whiteTime = 0;
+    this.blackTime = 0;
+    clearInterval(this.intervalId);  
+    this.intervalId = null;
   }
 
   updateBoard() {
