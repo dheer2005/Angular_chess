@@ -1,7 +1,8 @@
 import { CommonModule, Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Chess, Square } from 'chess.js';
+import { playersInfo } from '../Model/playersInfo.model';
 
 @Component({
   selector: 'app-chess-board',
@@ -18,10 +19,11 @@ export class ChessBoardComponent implements OnInit {
   gameStarted: boolean = false;
   user1: string = '';
   user2: string = '';
-  whiteTime: number = 0;  
+  whiteTime: number = 0;
   blackTime: number = 0;  
   intervalId: any = null;
   timer: any = 1;
+  Info?: playersInfo;
 
 
   durations: any = {
@@ -31,23 +33,27 @@ export class ChessBoardComponent implements OnInit {
     '20 min': 20,
   };
 
+  
+
   originalOrder = (a: any, b: any): number => 0;
 
   ngOnInit() {
     this.updateBoard();
     // this.chess.load('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1');
-    console.log(this.chess.turn());
   }
 
-  startGame(){
+  
+
+  startGame(form: NgForm){
+    this.Info = {
+      user1: this.user1,
+      user2: this.user2
+    }
     this.gameStarted = true;
     this.whiteTime = this.timer * 60;
     this.blackTime = this.timer * 60;
     this.startTimer();
-    console.log( "clicked");
-    console.log("player1",this.user1);
-    console.log("player2",this.user2);
-    console.log("time: ", this.timer);
+    form.reset();
   }
 
   startTimer() {
@@ -62,7 +68,7 @@ export class ChessBoardComponent implements OnInit {
         this.whiteTime--;
         if (this.whiteTime <= 0) {
           clearInterval(this.intervalId);
-          alert(`Time's up! ${this.user1} wins.`);
+          alert(`Time's up! ${this.Info?.user1} wins.`);
           this.gameStarted = false;
           this.user1 = '';
           this.user2 = '';
@@ -72,7 +78,7 @@ export class ChessBoardComponent implements OnInit {
         this.blackTime--;
         if (this.blackTime <= 0) {
           clearInterval(this.intervalId);
-          alert(`Time's up! ${this.user2} wins.`);
+          alert(`Time's up! ${this.Info?.user2} wins.`);
           this.gameStarted = false;
           this.user1 = '';
           this.user2 = '';
@@ -99,17 +105,15 @@ export class ChessBoardComponent implements OnInit {
     this.user2 = '';
     this.whiteTime = 0;
     this.blackTime = 0;
-    clearInterval(this.intervalId);  
+    clearInterval(this.intervalId);
     this.intervalId = null;
   }
 
   updateBoard() {
     const boardState = this.chess.board();
-    console.log(boardState);
     this.board = boardState.map(row =>
       row.map(piece => piece ? piece.color + piece.type : '')
     );
-    console.log('LegalMoves: ',this.legalMoves);
   }
 
   onSquareClick(row: number, col: number) {
@@ -132,7 +136,7 @@ export class ChessBoardComponent implements OnInit {
 
         if (this.chess.isGameOver()) {
           if (this.chess.isCheckmate()) {
-            alert("Checkmate! " + (this.chess.turn() === 'w' ? `${this.user1}` : `${this.user2}`) + " wins.");
+            alert("Checkmate! " + (this.chess.turn() === 'w' ? `${this.Info?.user1}` : `${this.Info?.user2}`) + " wins.");
           } else if (this.chess.isDraw()) {
             alert("Draw!");
           }
@@ -142,7 +146,6 @@ export class ChessBoardComponent implements OnInit {
       this.legalMoves = [];
     } else {
       const piece = this.chess.get(square);
-      console.log('piece: ', piece);
       if (piece && piece.color === this.chess.turn()) {
         this.selectedSquare = square;
         const moves = this.chess.moves({ square, verbose: true });
@@ -162,13 +165,6 @@ export class ChessBoardComponent implements OnInit {
     return (row + col) % 2 === 0 ? 'white' : 'black';
   }
 
-  // getPieceSymbol(piece: string): string {
-  //   const map: { [key: string]: string } = {
-  //     wp: '♙', wr: '♖', wn: '♘', wb: '♗', wq: '♕', wk: '♔',
-  //     bp: '♟', br: '♜', bn: '♞', bb: '♝', bq: '♛', bk: '♚'
-  //   };
-  //   return map[piece] || '';
-  // }
 
   getPieceIconClass(piece: string): string {
     const map: { [key: string]: string } = {

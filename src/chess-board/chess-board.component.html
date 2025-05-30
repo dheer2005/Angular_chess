@@ -1,10 +1,10 @@
 <div class="chess-board mt-4 mb-2 text-center">
     <div class="playerName mt-4" >
         <div class=" d-flex justify-content-center align-items-center">
-            <p class="fs-3">{{user1}}</p>
-            <p class="turn mt-1" *ngIf="chess.turn() === 'b' && user1" ><i class="turn fa-solid fa-arrow-left"></i></p>
+            <p class="fs-3">{{Info?.user1}}</p>
+            <p class="turn mt-1" *ngIf="chess.turn() === 'b' && Info?.user1" ><i class="turn fa-solid fa-arrow-left"></i></p>
         </div>
-        <div class="time" *ngIf="user1">{{ formatTime(blackTime) }}</div>
+        <div class="time" *ngIf="Info?.user1">{{ formatTime(blackTime) }}</div>
     </div>
     <div>
         <div *ngFor="let row of board; let rowIndex = index" class="d-flex justify-content-center align-items-center">
@@ -20,13 +20,13 @@
   
   <div class="playerName" >
         <div class=" d-flex justify-content-center align-items-center">
-            <p class="fs-3">{{user2}}</p>
-            <p class="turn mt-1" *ngIf="chess.turn() === 'w' && user2" ><i class="turn fa-solid fa-arrow-left"></i></p>
+            <p class="fs-3">{{Info?.user2}}</p>
+            <p class="turn mt-1" *ngIf="chess.turn() === 'w' && Info?.user2" ><i class="turn fa-solid fa-arrow-left"></i></p>
         </div>
-        <div class="time" *ngIf="user2" >{{ formatTime(whiteTime) }}</div>
+        <div class="time" *ngIf="Info?.user2" >{{ formatTime(whiteTime) }}</div>
     </div>
   <div class="BtnDiv" *ngIf="!gameStarted">
-    <button type="button" class="startBtn btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >Start game</button>
+    <button type="button" class="startBtn btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Start game</button>
   </div>
 </div>
 
@@ -63,7 +63,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="register.invalid" (click)="startGame()">Submit</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="register.invalid" (click)="startGame(register)">Submit</button>
       </div>
     </div>
   </div>
